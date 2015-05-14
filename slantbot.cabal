@@ -27,15 +27,15 @@ executable slantbot
     bytestring,
     data-default,
     either,
-    http-conduit,
-    http-types,
-    network,
-    stm,
-    text,
-    time,
-    transformers,
-    unordered-containers,
-    vector
+--    http-conduit,
+--    http-types,
+--    network,
+--    stm,
+--    text,
+--    time,
+--    transformers,
+--    unordered-containers,
+--    vector
   hs-source-dirs:
     .,
     reddit/src
