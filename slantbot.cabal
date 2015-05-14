@@ -35,7 +35,7 @@ executable slantbot
 --    time,
 --    transformers,
 --    unordered-containers,
---    vector
+    vector
   hs-source-dirs:
     .,
     reddit/src
