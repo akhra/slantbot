@@ -21,21 +21,21 @@ executable slantbot
   -- other-extensions:    
   build-depends:
     -- copied from 'reddit'
-    base >=4.8 && <4.9,
-    aeson == 0.8.*,
+    base >= 4.6 && < 4.9,
+    aeson,
     api-builder == 0.7.*,
-    bytestring == 0.10.*,
-    data-default == 0.5.*,
-    either == 4.3.*,
-    http-conduit == 2.1.*,
-    http-types == 0.8.*,
-    network == 2.6.*,
-    stm == 2.4.*,
-    text == 1.2.*,
-    time == 1.5.*,
-    transformers == 0.4.*,
-    unordered-containers == 0.2.*,
-    vector == 0.10.*
+    bytestring,
+    data-default,
+    either,
+    http-conduit,
+    http-types,
+    network,
+    stm,
+    text,
+    time,
+    transformers,
+    unordered-containers,
+    vector
   hs-source-dirs:
     .,
     reddit/src
@@ -43,4 +43,4 @@ executable slantbot
   default-extensions:
     FlexibleInstances
     OverloadedStrings
-  GHC-options: -Wall
+--  GHC-options: -Wall
