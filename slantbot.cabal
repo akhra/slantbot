@@ -27,6 +27,7 @@ executable slantbot
     bytestring,
     data-default,
     either,
+<<<<<<< HEAD
 --    http-conduit,
 --    http-types,
 --    network,
@@ -36,6 +37,17 @@ executable slantbot
 --    transformers,
 --    unordered-containers,
 --    vector
+=======
+    http-conduit,
+    http-types,
+    network,
+    stm,
+    text,
+    time,
+    transformers,
+    unordered-containers,
+    vector
+>>>>>>> c6a22795f009006c0853c96ecaf309223d44a449
   hs-source-dirs:
     .,
     reddit/src
