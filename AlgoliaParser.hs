@@ -2,6 +2,7 @@
 
 module AlgoliaParser where
 
+import Control.Applicative
 import Data.Aeson (FromJSON(..), Value(..), (.:))
 import Data.Aeson.Types (typeMismatch, emptyArray)
 import Data.Text (Text)
