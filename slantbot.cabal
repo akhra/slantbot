@@ -7,7 +7,7 @@ version:             0.1.0.0
 -- description:         
 -- license:             
 -- license-file:
-author:              tejon
+author:              tejon@slant.co
 maintainer:          tejon@slant.co
 -- copyright:           
 -- category:            
@@ -20,6 +20,11 @@ executable slantbot
   -- other-modules:       
   -- other-extensions:    
   build-depends:
+    connection == 0.2.*,
+    mtl == 2.2.*,
+    network-uri == 2.6.*,
+    postgresql-simple == 0.4.*,
+    split == 0.2.*,
     -- copied from 'reddit'
     base >= 4.6 && < 4.9,
     aeson,
@@ -43,4 +48,4 @@ executable slantbot
   default-extensions:
     FlexibleInstances
     OverloadedStrings
---  GHC-options: -Wall
+  GHC-options: -Wall -O2
