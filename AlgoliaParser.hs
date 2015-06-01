@@ -2,7 +2,7 @@
 
 module AlgoliaParser where
 
-import Control.Applicative
+import Control.Applicative  -- haskell-on-heroku is still GHC 7.8, needs this
 import Data.Aeson (FromJSON(..), Value(..), (.:))
 import Data.Aeson.Types (typeMismatch, emptyArray)
 import Data.Text (Text)

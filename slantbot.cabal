@@ -48,4 +48,4 @@ executable slantbot
   default-extensions:
     FlexibleInstances
     OverloadedStrings
-  GHC-options: -Wall -O2
+  GHC-options: -O2
