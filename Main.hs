@@ -155,7 +155,7 @@ responseBest (Best qid qtitle oid otitle getURL)
   <> "If you want more info, you can:\n\n"
   <> "- [See its pros and cons]"
      <> "(" <> qURL <> "/viewpoints/" <> (pack $ show oid) <> ")\n\n"
-  <> "- [Compare other options]" <> "(" <> qURL <> ")"
+  <> "- [See the other options]" <> "(" <> qURL <> ")"
   where
     qURL = "http://www.slant.co/topics/" <> (pack $ show qid)
     option = if getURL == empty
