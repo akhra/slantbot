@@ -61,7 +61,7 @@ runBot :: Text -> Int -> BotInfo -> IO ()
 runBot pass freq info@(BotInfo _ _ _ user lastPID) = do
   (_, lastPID') <- flip runReaderT info
                  $ flip runStateT lastPID
-                 $ runReddit user pass bot
+                 $ runRedditWithRateLimiting user pass bot
   when (freq > 0) $ threadDelay freq
   runBot pass freq $ info { _lastP = lastPID' }
 
