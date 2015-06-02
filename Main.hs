@@ -15,7 +15,7 @@ import Reddit.Types.Options
 import Reddit.Types.Subreddit
 import Reddit.Types.User
 import Control.Concurrent (threadDelay)
-import Control.Monad (liftM)
+import Control.Monad (liftM, when)
 import Control.Monad.Reader (runReaderT)
 import Control.Monad.State (runStateT)
 import Control.Monad.IO.Class (liftIO)
@@ -62,7 +62,7 @@ runBot pass freq info@(BotInfo _ _ _ user lastPID) = do
   (_, lastPID') <- flip runReaderT info
                  $ flip runStateT lastPID
                  $ runReddit user pass bot
-  threadDelay freq
+  when (freq > 0) $ threadDelay freq
   runBot pass freq $ info { _lastP = lastPID' }
 
 bot :: BotM ()
