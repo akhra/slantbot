@@ -1,1 +1,1 @@
-worker: bin/slantbot
+web: bin/slantbot
