@@ -124,9 +124,10 @@ getQueryString :: String -> Comment -> Maybe String
 getQueryString self = check . lines . unpack . RC.body
   where
     check []    = Nothing
-    check (x:_) = case words $ fmap toLower x of
-      ('@':u):q | u == self -> Just $ unwords q
-      _                     -> Nothing
+    check (x:_) = case words x of
+      ('@':u):q | fmap toLower u == fmap toLower self 
+        -> Just $ unwords q
+      _ -> Nothing
 
 respondToQuery :: String -> CommentID -> BotM ()
 respondToQuery query cid = do

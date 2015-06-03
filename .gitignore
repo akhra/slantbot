@@ -1,3 +1,6 @@
-.cabal-sandbox
+.cabal-sandbox/
 cabal.sandbox.config
-dist
+dist/
+reddit/dist/
+scratch/
+env.bat
