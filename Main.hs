@@ -158,7 +158,7 @@ responseBest (Comment{subreddit=(R sub)}) (Best qid qtitle oid otitle getURL)
   <> "- [See the other options]" <> "(" <> qURL <> ")"
   where
     url = "http://www.slant.co/topics/" <> (pack $ show qid)
-    utm = "?utm_source=reddit&utm-medium=bot&utm_campaign=" <> sub
+    utm = "?utm_source=reddit&utm_medium=bot&utm_campaign=" <> sub
     qURL = url <> utm
     oURL = url <> "/viewpoints/" <> (pack $ show oid) <> utm
     option = if getURL == empty
