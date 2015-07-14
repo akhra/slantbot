@@ -108,7 +108,7 @@ handleComment comment = do
     then return ()
     else case getQueryString (fmap toLower $ unpack self) comment of
         Nothing -> return ()
-        Just q  -> respondToQuery q $ commentID comment
+        Just q  -> respondToQuery q comment
 
 selfInvolved :: Username -> Comment -> BotM Bool
 selfInvolved self comment = do
@@ -129,36 +129,38 @@ getQueryString self = check . lines . unpack . RC.body
         -> Just $ unwords q
       _ -> Nothing
 
-respondToQuery :: String -> CommentID -> BotM ()
-respondToQuery query cid = do
+respondToQuery :: String -> Comment -> BotM ()
+respondToQuery query comment@(Comment{commentID=cid}) = do
   aprof <- aprof'
   b <- liftIO $ getBest aprof query
-  let response = (responseBody b) <> responseFooter
+  let response = (responseBody comment b) <> responseFooter
   _ <- reply cid response
   putLastP cid  -- This won't take effect until the next full bot cycle.
                 -- Necessary because process order is by subreddit, not age.
 
-responseBody :: Maybe Best -> Text
-responseBody b = case b of
+responseBody :: Comment -> Maybe Best -> Text
+responseBody c b = case b of
   Nothing   -> responseNoResult
-  Just best -> responseBest best
+  Just best -> responseBest c best
 
 responseNoResult :: Text
 responseNoResult
   =  "Sorry, I couldn't find anything for that query."
      <> " I'll just sit in the corner and contemplate my failure."
 
-responseBest :: Best -> Text
-responseBest (Best qid qtitle oid otitle getURL)
+responseBest :: Comment -> Best -> Text
+responseBest (Comment{subreddit=(R sub)}) (Best qid qtitle oid otitle getURL)
   =  "Hi there! It looks like you're asking:  \n"
   <> "[*" <> qtitle <> "*](" <> qURL <> ")\n\n"
   <> "The most-recommended option is " <> option <> ".  \n"
   <> "If you want more info, you can:\n\n"
-  <> "- [See its pros and cons]"
-     <> "(" <> qURL <> "/viewpoints/" <> (pack $ show oid) <> ")\n\n"
+  <> "- [See its pros and cons]" <> "(" <> oURL <> ")\n\n"
   <> "- [See the other options]" <> "(" <> qURL <> ")"
   where
-    qURL = "http://www.slant.co/topics/" <> (pack $ show qid)
+    url = "http://www.slant.co/topics/" <> (pack $ show qid)
+    utm = "?utm_source=reddit&utm-medium=bot&utm_campaign=" <> sub
+    qURL = url <> utm
+    oURL = url <> "/viewpoints/" <> (pack $ show oid) <> utm
     option = if getURL == empty
              then "**" <> otitle <> "**"
              else "[**" <> otitle <> "**](" <> getURL <> ")"
