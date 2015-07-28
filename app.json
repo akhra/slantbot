@@ -1,0 +1,44 @@
+{
+  "env": {
+    "HALCYON_NO_BUILD_DEPENDENCIES": {
+      "description": "Force haskell-on-heroku to build everything at once.",
+      "value": "0"
+    },
+    "ALGOLIA_ID": {
+      "description": "Application ID for Algolia search service."
+    },
+    "ALGOLIA_KEY": {
+      "description": "API key for Algolia search service."
+    },
+    "ALGOLIA_QUERY_BASE": {
+      "description": "Parameters for Algolia searches. This is everything between ? and &query= in the REST query.",
+    },
+    "ALGOLIA_QUERY_INDEX": {
+      "description": "Algolia application index to query. Setting this to * should work, but is untested.",
+    },
+    "DATABASE_URL": {
+      "description": "URL for subreddit permissions database. It needs a table named 'subreddits' with columns varchar(22):'subreddit' and bool:'auto'.",
+    },
+    "REDDIT_FREQ": {
+      "description": "Reddit scan frequency in seconds.",
+      "value": "20"
+    },
+    "REDDIT_OWNER": {
+      "description": "Reddit user to receive direct mail sent to the bot. Note: No mail will be forwarded until the bot's account no longer needs a captcha.",
+    },
+    "REDDIT_PASS": {
+      "description": "Password for the bot's reddit account.",
+    },
+    "REDDIT_USER": {
+      "description": "Reddit username for the bot.",
+    },
+  },
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "https://github.com/mietek/haskell-on-heroku"
+    }
+  ]
+}

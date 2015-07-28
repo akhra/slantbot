@@ -3,4 +3,3 @@ cabal.sandbox.config
 dist/
 reddit/dist/
 scratch/
-env.bat

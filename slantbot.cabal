@@ -20,7 +20,8 @@ executable slantbot
   -- other-modules:       
   -- other-extensions:    
   build-depends:
-    aeson == 0.9.*,
+    aeson >= 0.8 && < 0.10,
+    async == 2.0.*,
     base >= 4.6 && < 4.9,
     bytestring == 0.10.*,
     connection == 0.2.*,
@@ -30,7 +31,6 @@ executable slantbot
     network-uri == 2.6.*,
     postgresql-simple == 0.4.*,
     reddit == 0.1.*,
-    split == 0.2.*,
     transformers == 0.4.*,
     text == 1.2.*
   hs-source-dirs: src
