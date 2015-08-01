@@ -4,7 +4,7 @@
 module Slantbot.Reddit.Subreddits.Responses where
 
 import           Data.Monoid
-import           Data.Text        (Text, pack)
+import           Data.Text        (Text, pack, unpack, strip)
 import qualified Data.Text        as T
 import           Slantbot.Algolia
 
@@ -34,7 +34,7 @@ responseNoResult utm
 responseWith :: Question -> Text -> Text
 responseWith q utm
   = "Hi there! It looks like you're asking:  \n"
-  <> "[*" <> questionTitle q <> "*](" <> qURL <> ")\n\n"
+  <> "[*" <> (strip $ questionTitle q) <> "*](" <> qURL <> ")\n\n"
   <> intro <> (T.concat $ take 3 options) <> note <> "\n\n" <> outro
   where
     url = "http://www.slant.co/topics/" <> pack (show $ questionID q)
@@ -43,10 +43,13 @@ responseWith q utm
     format o = "\n\n" <> prefix (optionID o) <> title o
     prefix n = "- [(s)](" <> url <> "/viewpoints/" <> pack (show n)
                <> utm <> ") / "
-    title o | optionGet o == mempty = t
-            | otherwise             = "[" <> t <> "](" <> optionGet o <> ")"
+    optGet o = strip $ optionGet o
+    title o = case unpack $ optGet o of
+                'h':'t':'t':'p':_
+                  -> "[" <> t <> "](" <> optGet o <> ")"
+                _ -> t
             where
-              t = "**" <> optionTitle o <> "**"
+              t = "**" <> (strip $ optionTitle o) <> "**"
     ocount = length options
     intro | ocount == 0 = ""
           | ocount == 1 = "I have one recommended option: "
