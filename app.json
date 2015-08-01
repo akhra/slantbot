@@ -4,9 +4,13 @@
       "description": "Force haskell-on-heroku to build everything at once.",
       "value": "0"
     },
-    "HALCION_GHC_VERSION": {
+    "HALCYON_GHC_VERSION": {
       "description": "Override default v7.8.4. Hooray, no Control.Applicative imports!",
       "value": "7.10.1"
+    },
+    "HALCYON_CABAL_VERSION": {
+      "description": "Override default v1.20.0.3 for compatibility with GHC 7.10.",
+      "value": "1.22.6.0"
     },
     "ALGOLIA_ID": {
       "description": "Application ID for Algolia search service."
