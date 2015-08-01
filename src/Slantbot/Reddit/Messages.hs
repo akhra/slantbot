@@ -18,6 +18,7 @@ handleMessage message = do
         PrivateMessage _ -> do
           maintainer <- maintainer'
           sendMessage (Username maintainer) mtopic (mbody sender)
+        _ -> return ()
   markRead message
   where
     mtopic = "fwd: " <> subject message

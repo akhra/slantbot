@@ -2,7 +2,6 @@
 
 module Algolia.Response where
 
-import           Control.Applicative
 import           Data.Aeson
 import           Data.Aeson.TH
 import           Data.Text           (Text)
@@ -41,7 +40,7 @@ instance (FromJSON a) => FromJSON (AlgoliaResponse a) where
     <*> v.:?"serverUsed"
     <*> v.:?"timeoutCounts"
     <*> v.:?"timeoutHits"
-  parseJSON _ = empty
+  parseJSON _ = mempty
 
 data AlgoliaHit a = AlgoliaHit
   { rankingInfo :: !(Maybe AlgoliaRankingInfo)
@@ -52,7 +51,7 @@ instance (FromJSON a) => FromJSON (AlgoliaHit a) where
   parseJSON o@(Object v) = AlgoliaHit
     <$> v.:?"_rankingInfo"
     <*> parseJSON o
-  parseJSON _ = empty
+  parseJSON _ = mempty
 
 data AlgoliaRankingInfo = AlgoliaRankingInfo
   { nbTypos           :: !Int

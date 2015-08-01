@@ -1,7 +1,6 @@
 module Slantbot.Config where
 
 import           Algolia.Query
-import           Control.Applicative
 import           Control.Monad
 import qualified Data.ByteString.Char8  as B (pack)
 import           Data.Default

@@ -3,7 +3,6 @@
 
 module Slantbot.Reddit.Subreddits.Permissions (getSubs) where
 
-import           Control.Applicative
 import           Control.Monad
 import           Data.Char
 import           Data.Maybe

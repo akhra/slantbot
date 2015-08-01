@@ -3,7 +3,6 @@
 module Slantbot.Reddit.Monad where
 
 import           Algolia.Query
-import           Control.Applicative
 import           Control.Monad
 import           Control.Monad.Reader
 import           Control.Monad.State

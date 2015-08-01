@@ -2,7 +2,6 @@ module Slantbot.Algolia where
 
 import           Algolia.Query
 import           Algolia.Response
-import           Control.Applicative
 import           Data.Aeson
 import           Data.Char
 import           Data.Maybe
@@ -34,7 +33,7 @@ instance FromJSON Question where
     <*> v.:"totalVotes"
     <*> (v.:"revision" >>= (.:"title"))
     <*> (v.:"viewpoints" >>= (.:"children"))
-  parseJSON _ = empty
+  parseJSON _ = mempty
 
 data Option = Option
     { optionID    :: !Int
@@ -48,4 +47,4 @@ instance FromJSON Option where
     <*> (v.:"votes" >>= (.:"count"))
     <*> (v.:"revision" >>= (.:"title"))
     <*> (v.:"revision" >>= (.:"siteURL"))
-  parseJSON _ = empty
+  parseJSON _ = mempty

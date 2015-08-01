@@ -4,7 +4,6 @@
 
 module Slantbot.Reddit (launch) where
 
-import           Control.Applicative
 import           Control.Concurrent
 import           Control.Monad
 import           Control.Monad.Reader
