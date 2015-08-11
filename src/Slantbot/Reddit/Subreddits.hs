@@ -2,8 +2,10 @@ module Slantbot.Reddit.Subreddits (handleSubreddits) where
 
 import           Control.Monad
 import           Control.Monad.IO.Class
+import           Control.Monad.Trans.Maybe
 import           Data.Char
 import           Data.Coerce
+import           Data.Maybe
 import           Data.Monoid
 import           Data.Text                              (unpack)
 import           Database.PostgreSQL.Simple
@@ -15,7 +17,10 @@ import           Slantbot.Reddit.Subreddits.Permissions
 import           Slantbot.Reddit.Subreddits.Responses
 
 handleSubreddits :: RBot ()
-handleSubreddits = mapM_ scanSub =<< getSubs' =<< database'
+handleSubreddits = do
+  self <- username'
+  lastPID <- fromMaybe (CommentID "0") <$> getLastParentID self
+  mapM_ (scanSub self lastPID) =<< getSubs' =<< database'
   where
     getSubs' db = liftIO $ do
       conn <- connectPostgreSQL db
@@ -23,23 +28,33 @@ handleSubreddits = mapM_ scanSub =<< getSubs' =<< database'
       close conn
       return subs
 
-scanSub :: SubredditName -> RBot ()
-scanSub sub = do
-  self <- username'
+getLastParentID :: Username -> RBot (Maybe CommentID)
+getLastParentID user = do
+  comments <- getUserComments user
+  case comments of
+    (Listing _ _ cs)
+      -> findM (fmap inReplyTo . getCommentInfo . commentID) cs
+    _ -> return Nothing
+  where
+    findM f = runMaybeT . msum . map (MaybeT . f)
+
+scanSub :: Username -> CommentID -> SubredditName -> RBot ()
+scanSub self lastPID sub = do
   Listing _ _ comments
     <- getNewComments' (Options Nothing (Just 100)) $ Just sub
-  mapM_ (handleComment self) comments
+  mapM_ (handleComment self lastPID) comments
 
-handleComment :: Username -> Comment -> RBot ()
-handleComment self comment = do
+handleComment :: Username -> CommentID -> Comment -> RBot ()
+handleComment self lastPID comment = do
   amParent <- checkParent
-  unless (amAuthor || amParent)
+  unless (oldComment || amAuthor || amParent)
     $ case getQueryString self comment of
     Just q -> do
       haveReplied <- checkChildren
       unless haveReplied $ respondToQuery q comment
     _ -> return ()
   where
+    oldComment = lastPID >= commentID comment
     check c = author c == self
     amAuthor = check comment
     checkParent = case inReplyTo comment of
