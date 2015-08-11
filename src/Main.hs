@@ -9,7 +9,7 @@ main :: IO ()
 main = do
   config <- getConfig
   threads <- mapM async
-    [ Reddit.launch $ reddit config
+    [ Reddit.runBot $ reddit config
 --    , Twitter.launch $ twitter config
     ]
   mapM_ wait threads

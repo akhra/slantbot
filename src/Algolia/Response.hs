@@ -6,7 +6,6 @@ import           Data.Aeson
 import           Data.Aeson.TH
 import           Data.Text           (Text)
 
--- TODO: Lens! Many lens! That's 50 ADT minus!
 data AlgoliaResponse a = AlgoliaResponse
   { hits              :: ![AlgoliaHit a]
   , nbHits            :: !Int

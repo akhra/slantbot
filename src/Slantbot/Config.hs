@@ -2,9 +2,9 @@ module Slantbot.Config where
 
 import           Algolia.Query
 import           Control.Monad
-import qualified Data.ByteString.Char8  as B (pack)
+import qualified Data.ByteString.Char8  as B
 import           Data.Default
-import           Data.Text
+import qualified Data.Text              as T
 import           Network.Connection
 import           Network.HTTP.Conduit
 import           Reddit
@@ -19,7 +19,7 @@ data Config = Config
 getConfig :: IO Config
 getConfig = do
   let
-    tEnv = liftM pack . getEnv
+    tEnv = liftM T.pack . getEnv
     bEnv = liftM B.pack . getEnv
   algid <- bEnv "ALGOLIA_ID"
   algky <- bEnv "ALGOLIA_KEY"
@@ -34,7 +34,7 @@ getConfig = do
     $ mkManagerSettings (TLSSettingsSimple True False False) Nothing
   let
     aprof = AlgoliaProfile algid algky algqb algix httpM
-    rinfo = RedditInfo aprof dburl owner ruser (CommentID "0")
+    rinfo = RedditInfo aprof dburl (Username owner) (Username ruser)
     ropts = def { connectionManager = Just httpM
                 , loginMethod       = Credentials ruser rpass }
     rconf = RedditConfig rinfo rfreq ropts

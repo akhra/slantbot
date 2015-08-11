@@ -1,5 +1,4 @@
-{-# LANGUAGE OverloadedStrings   #-}
-{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module Slantbot.Reddit.Subreddits.Responses where
 
@@ -48,8 +47,8 @@ responseWith q utm
                 'h':'t':'t':'p':_
                   -> "[" <> t <> "](" <> optGet o <> ")"
                 _ -> t
-            where
-              t = "**" <> (strip $ optionTitle o) <> "**"
+              where
+                t = "**" <> (strip $ optionTitle o) <> "**"
     ocount = length options
     intro | ocount == 0 = ""
           | ocount == 1 = "I have one recommended option: "

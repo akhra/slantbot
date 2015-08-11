@@ -1,14 +1,17 @@
-module Slantbot.Reddit.Messages (scanMessages) where
+module Slantbot.Reddit.Messages (handleMessages) where
 
+import           Control.Monad
 import           Data.Monoid
 import           Reddit
 import           Reddit.Types.Message
 import           Slantbot.Reddit.Monad
 
-scanMessages :: RBot ()
-scanMessages = do
-  Listing _ _ messages <- getUnread
-  mapM_ handleMessage messages
+handleMessages :: RBot ()
+handleMessages = do
+  captcha <- needsCaptcha
+  unless captcha $ do
+    Listing _ _ messages <- getUnread
+    mapM_ handleMessage messages
 
 handleMessage :: Message -> RBot ()
 handleMessage message = do
@@ -17,7 +20,7 @@ handleMessage message = do
       case messageID message of
         PrivateMessage _ -> do
           maintainer <- maintainer'
-          sendMessage (Username maintainer) mtopic (mbody sender)
+          sendMessage maintainer mtopic (mbody sender)
         _ -> return ()
   markRead message
   where

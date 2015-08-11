@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings   #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module Slantbot.Reddit.Subreddits.Permissions (getSubs) where
+module Slantbot.Reddit.Subreddits.Permissions where
 
 import           Control.Monad
 import           Data.Char

@@ -17,7 +17,6 @@ import           Network.HTTP.Conduit
 import           Network.URI           (escapeURIString,
                                         isUnescapedInURIComponent)
 
--- TODO: Lens. Lens everywhere.
 data AlgoliaProfile = AlgoliaProfile
   { appID      :: !ByteString
   , apiKey     :: !ByteString

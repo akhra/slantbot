@@ -9,8 +9,8 @@ import           Data.Text            (Text)
 
 questionSearch :: AlgoliaProfile -> String -> IO (Maybe Question)
 questionSearch _ [] = return Nothing
-questionSearch profile query = do
-  response <- algoliaQuery groomChars groomWords profile query
+questionSearch profile q = do
+  response <- algoliaQuery groomChars groomWords profile q
   return $ case response of
     Just r -> userData <$> (listToMaybe . hits $ r)
     _      -> Nothing
