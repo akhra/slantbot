@@ -1,6 +1,6 @@
 # Slantbot
 
-Slantbot scans a list of approved subreddits searching for comments starting with its invocation command. Queries are harvested from the first line of such comments, and forwarded to Slant.co's search interface. Results are parsed, formatted and returned as a reply to the triggering comment. Additionally, it forwards any direct messages it receives to a maintainer's account. The subreddit list is read in from a remote SQL database; other configuration (usernames, API codes, etc.) are provided through environment variables.
+Slantbot scans a list of approved subreddits searching for comments starting with its invocation command, for example `@whatarethebest Q&A websites for subjective questions`. Queries are harvested from the first line of such comments, and forwarded to Slant.co's search interface. Results are parsed, formatted and returned as a reply to the triggering comment. Additionally, it forwards any direct messages it receives to a maintainer's account. The subreddit list is read in from a remote SQL database; other configuration (usernames, API codes, etc.) are provided through environment variables.
 
 The code is modular and extensible, and many parts could be useful to other projects.
 
