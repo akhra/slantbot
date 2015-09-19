@@ -13,7 +13,7 @@ import           System.Environment
 
 data Config = Config
   { reddit :: !RedditConfig
---  , twitter :: !TwitterInfo
+--  , twitter :: !TwitterConfig
   } deriving (Show)
 
 getConfig :: IO Config

@@ -25,23 +25,38 @@ responseNoResult :: Text -> Text
 responseNoResult utm
   = "Sorry, I couldn't find anything for that query. I've really dropped the \
     \ball on this one... if you'll excuse me, I feel the need to go sit \
-    \quietly in a corner.\n\n\
+    \quietly in a corner."
+{- SPAM PANIC
+    \n\n\
     \If you want, though, you could try asking this question directly on \
     \[Slant](http://www.slant.co/"<>utm<>"), where I get my data. It might \
     \save me some embarrassment the next time someone asks about this!"
+-}
 
 responseWith :: Question -> Text -> Text
 responseWith q utm
+{- SPAM PANIC
   = "Hi there! It looks like you're asking:  \n"
   <> "[*" <> (strip $ questionTitle q) <> "*](" <> qURL <> ")\n\n"
-  <> intro <> (T.concat $ take 3 options) <> note <> "\n\n" <> outro
+  <> intro <> (T.concat $ take 3 options) <> "\n\n" <> outro
+-}
+  | ocount == 0
+    = responseNoResult utm
+  | otherwise
+    = "Hi there! It looks like you're asking:  \n"
+    <> "*" <> (strip $ questionTitle q) <> "*\n\n"
+    <> intro <> (T.concat $ take 5 options)
   where
+    options = format <$> questionOptions q
+    ocount = length options
+{- SPAM PANIC
     url = "http://www.slant.co/topics/" <> pack (show $ questionID q)
     qURL = url <> utm
-    options = format <$> questionOptions q
     format o = "\n\n" <> prefix (optionID o) <> title o
     prefix n = "- [(s)](" <> url <> "/viewpoints/" <> pack (show n)
                <> utm <> ") / "
+-}
+    format o = "\n\n- " <> title o
     optGet o = strip $ optionGet o
     title o = case unpack $ optGet o of
                 'h':'t':'t':'p':_
@@ -49,12 +64,17 @@ responseWith q utm
                 _ -> t
               where
                 t = "**" <> (strip $ optionTitle o) <> "**"
-    ocount = length options
+    intro | ocount == 0
+            = "Whoops... I have no recommended options. \
+              \This message should never appear, so I've also got a bug!"
+          | ocount == 1 = "I have one recommended option:"
+          | otherwise   = "I have these recommended options:"
+{- SPAM PANIC
     intro | ocount == 0 = ""
-          | ocount == 1 = "I have one recommended option: "
-          | ocount == 2 = "I have two recommended options: "
-          | ocount == 3 = "I have three recommended options: "
-          | otherwise   = "My three most recommended options are: "
+          | ocount == 1 = "I have one recommended option:"
+          | ocount == 2 = "I have two recommended options:"
+          | ocount == 3 = "I have three recommended options:"
+          | otherwise   = "My most recommended options are:"
     note | ocount == 0 = ""
          | otherwise
            = "\n\n*(s) goes to the option's pros and cons on Slant.*"
@@ -81,3 +101,4 @@ responseWith q utm
       = "In addition to these, another " <> (pack . show $ ocount - 3) <>
         " options have been suggested. To see them too, or to make your own \
         \suggestion, follow the question link above."
+-}
